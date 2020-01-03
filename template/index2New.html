@@ -1,0 +1,587 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>云南省财经大学国际工商学院</title>
+    <link rel="stylesheet" href="/pub/ibs/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/pub/ibs/layui/css/layui.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+</head>
+<body>
+
+    <div class="top">
+        <div class="topN">
+            <div class="topL col-md-6 col-sm-6 col-xs-6"><span class="caidanicon"><i class="iconfont">&#xe601;</i></span><i></i><span>2019年11月11日</span></div>
+            <div class="topR col-md-6 col-sm-6 col-xs-6">
+                <ul>
+                    <li><a href="http://ibs.ynufe.edu.cn/">旧站</a></li>
+                    <!-- 网站没有用户，所以隐藏注册登录 -->
+                    <!-- <li><a href="#">注册/登录</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    #parse("head2.vm")
+
+        <div class="newImg">
+            <div class="layui-carousel" id="test1">
+                <div carousel-item>
+                    <!--banner 循环部分 -->
+                    #set($expNum = 6)
+                    #set($count = 0)
+                    #set ($active= "")
+                    #foreach($temp in $cms.getContents("首页图",1))
+                      #set ($cid= $temp.parentID)
+                    #end
+                    
+                    #foreach($article in $cmsService.getPageDatas("From Article where siteID=$curChannel.site.ID and parentID=$cid and status=7 order by sortID",1,20))
+                    
+                      #if($article.type==4||$article.type==5)
+                        #set ($tid = $article.srcContentID)
+                      #else
+                        #set ($tid = $article.ID)
+                      #end
+                    
+                      #foreach($attimg in $cmsService.getPageDatas("FROM Attachment as att WHERE (att.type=1 or att.type=2) and att.parent.ID=$tid order by sortID desc", 1, 1))
+                         #set ($img = $cms.getUrl($attimg))
+                      #end
+                      #if ($img!="")
+                        #if($count<$expNum)
+                          #if($count==0)
+                            #set ($active="active")
+                          #else
+                            #set ($active="")
+                          #end
+                    
+                     #set ($linkurl = $article.viceTitle.replace("http://www.ynufe.edu.cn","") )
+                     <div>
+                        <a href="$linkurl">
+                          <img src="$img">
+                          <div class="newImgTxt col-md-12 col-sm-12 col-xs-12">
+                            <h3>#summary($article.name 26)</h3>
+                            <p>#summary($article.name 26)</p>
+                          </div>
+                        </a>
+                      </div>
+                    #set ($fullArticle=$cmsService.getArticle($tid))
+                    
+                        #set($count = $count+1)
+                        #set ($img = "")
+                        #end
+                      #end
+                    #end
+                    
+                    <!--banner 循环部分 -->
+                  <!-- <div>
+                    <a href="#">
+                      <img src="images/banner01.jpg">
+                      <div class="newImgTxt col-md-12 col-sm-12 col-xs-12">
+                        <h3>云南省财经大学国际工商学院</h3>
+                        <p>随着“不忘初心，牢记使命”主题教育活动的深入，学院党委积极开展“担当使命，云财党员在行动”活动，11月23日下午，学院党委书记林浩带领师生深入玉溪永新运输有限公司进行参观交流，拓展学生实践、就业渠道。公司董事长刘永喜、总经理周静玉、办公室主任徐文娟接待了学院师生一行。</p>
+                      </div>
+                    </a>
+                  </div> -->
+
+                </div>
+              </div>
+        </div>
+
+
+
+
+
+        <div class="main" style="width: 100%; padding: 0px;">
+
+            <div class="titWap">
+                <div class="tit">
+                    <a href="#">
+                        <span class="titspan1">合作院校与合作项目</span>
+                        <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Cooperative institutions and projects</em><img src="images/titline.jpg" alt=""></span>
+                    </a>
+                    <a href="$cms.getUrl('合作院校与合作项目栏目')" class="more">More</a>
+                </div>
+            </div>
+            <div class="hzxmlist">
+                <ul>
+                    <!-- 合作院校与合作项目栏目循环部分 -->
+                    #set($hzyxyhzxmlmPiccount=0)
+                    #foreach($article in $cms.getContents("合作院校与合作项目栏目", 200))
+                    #set($imgurl=$cms.getPictureUrl($article))
+                    #if ($cms.hasPicture($article) && $hzyxyhzxmlmPiccount<=8 && $imgurl!="")
+                    <li><a href="$cms.getUrl($article)"><i><img src="$imgurl"></i><em>#summary($article.viceTitle 24)</em><span>#summary($article.name 24)</span></a></li>
+                    #set($hzyxyhzxmlmPiccount=$hzyxyhzxmlmPiccount+1)
+                    #end
+
+                    #end
+                     <!-- 循环部分 -->
+                    <!-- <li><a href="#"><i><img src="images/hzxmlist01.jpg"></i><em>Cook University, New York, USA</em><span>美国库克大学</span></a></li> -->
+                </ul>
+                
+            </div>
+
+            <div class="newsdypWap">
+                <div class="newsdyp">
+                    <div class="newsdypL col-md-8 col-sm-12">
+                        <div class="tit">
+                            <a href="#">
+                                <span class="titspan1">新闻动态</span>
+                                <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Comprehensive news</em><img src="images/titline.jpg" alt=""></span>
+                            </a>
+                            <a href="$cms.getUrl('学院新闻')" class="more">More</a>
+                        </div>
+                        <!-- 综合新闻学院新闻循环部分（学院新闻|通知公告）后续需要修改为新闻中心当前只是为了测试 -->
+                        <!-- 查询当前新闻动态栏目id编号 -->
+                        #set ($zhxwCurrentId= "")
+                        #foreach($sub in $cms.getChildren("新闻公告",0,5))
+                           #if ($sub.name=="学院新闻")
+                           #set($zhxwCurrentId=$sub.ID)
+                           #end
+                        #end
+
+                        #set($zhxwPiccount=0)
+                        #foreach($article in $cmsService.getPageDatas("From Article where siteID=$curChannel.site.ID and parentID=$zhxwCurrentId and status=7 order by sortID desc",1,200))
+                        #set($imgurl=$cms.getPictureUrl($article))
+                        #if ($cms.hasPicture($article) && $zhxwPiccount<=3 && $imgurl!="")
+                        <div class="newsdypLdiv col-md-4 col-sm-4">
+                            <div class="newsdypLdivwap">
+                                <div class="newsdypimg">
+                                    <a href="$cms.getUrl($article)"><img src="$imgurl"></a>             
+                                </div>
+                                <div class="newsdyptxt">
+                                    <h3><a href="$cms.getUrl($article)">#summary($article.name 37)</a></h3>
+                                    <p><a href="$cms.getUrl($article)">#summary($article.content 250)</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        #set($zhxwPiccount=$zhxwPiccount+1)
+                        #end
+    
+                        #end
+
+                        <!-- 综合新闻循环部分（学院新闻|通知公告） -->
+                        <!-- <div class="newsdypLdiv col-md-4 col-sm-4">
+                            <div class="newsdypLdivwap">
+                                <div class="newsdypimg"><img src="images/newimg01.jpg"></div>
+                                <div class="newsdyptxt">
+                                    <h3>第四届“一带一路背景下东南亚南亚商务合作与发展”在我校隆重召开</h3>
+                                    <p>11月24日，由我校国际工商学院、科研处主办，澳大利亚查尔斯特大学、英国格林威治大学、加拿大不列颠哥伦比亚大学、泰国正大管理学院、中国人民大学协办的第四届“一带一路背景下东南亚南亚商务合作与发展” (2019ISBCD)在我校隆重召开。会议围绕“一带一路”与“亚投行成立”背景下，东南亚南亚区域内新兴的商务贸易理念与合作模式进行深入的探讨和交流。</p>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        </div>
+                        <div class="newsdypR col-md-4 col-sm-12 col-xs-12">
+                            <div class="tit">
+                                <a href="list2.html">
+                                    <span class="titspan1">通知公告</span>
+                                    <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Notice announcement</em><img src="images/titline.jpg" alt=""></span>
+                                </a>
+                                <a href="$cms.getUrl('通知公告')" class="more">More</a>
+                            </div>
+                            <!-- 通知公告循环部分 -->
+                            #set ($tzggCurrentId= "")
+                            #foreach($sub in $cms.getChildren("新闻公告"))
+                               #if ($sub.name=="通知公告")
+                               #set($tzggCurrentId=$sub.ID)
+                               #end
+                            #end
+                            #foreach($article in $cmsService.getPageDatas("From Article where siteID=$curChannel.site.ID and parentID=$tzggCurrentId and status=7 order by publishDate DESC",1,2))
+                            <div class="tzggdiv col-md-12 col-sm-6 col-xs-12">
+                                <div class="tzggdivL col-md-2 col-sm-2 col-xs-2">
+                                    <div class="tzggdivLTime">
+                                        <span>$cms.format($article.publishDate,"dd日")</span>
+                                        <em class="zmonthDate">$cms.format($article.publishDate,"MM")</em>
+                                    </div>
+                                </div>
+                                <div class="tzggdivR col-md-10 col-sm-10 col-xs-10">
+                                    <h3><a href="$cms.getUrl($article)">#summary($article.name 37)</a></h3>
+                                    <p><a href="$cms.getUrl($article)">#summary($article.content 250)</a></p>
+                                </div>
+                            </div>                      
+                            #end
+                            <!-- 通知公告循环部分 -->
+                            <!-- <div class="tzggdiv col-md-12 col-sm-6 col-xs-12">
+                                <div class="tzggdivL col-md-2 col-sm-2 col-xs-2">
+                                    <div class="tzggdivLTime">
+                                        <span>26日</span>
+                                        <em>Nov</em>
+                                    </div>
+                                </div>
+                                <div class="tzggdivR col-md-10 col-sm-10 col-xs-10">
+                                    <h3>砥砺前行，更展荣光---第三十五届运动会顺利闭幕</h3>
+                                    <p>11月13日至15日，学校第35届运动会在南院足球场举行。三天的比赛中，学院运动健儿大显身手，在多个运动项目斩获名次，荣获运动会入场式方阵第一名、团体操第三名、学生团体总分第十名的好成绩。运动员们拼尽全力，为荣誉而战。</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+            </div>
+
+
+
+            <div class="threedivWapdiv">
+                <div class="threediv">
+                    <div class="threedivWap col-md-4">
+                        <div class="tit">
+                            <a href="#">
+                                <span class="titspan1">团学快讯</span>
+                                <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Regiment Express</em><img src="images/titline.jpg" alt=""></span>
+                            </a>
+                            <a href="$cms.getUrl('团学快讯')" class="more">More</a>
+                        </div>
+                        <ul class="newslist">
+                            #foreach($article in $cms.getContents("团学快讯",5))
+                            <li><a href="$cms.getUrl($article)">#summary($article.name 37)</a><span>$cms.format($article.publishDate,"yyyy-MM-dd")</span></li>
+                            #end
+                        </ul>
+                    </div>
+                    <div class="threedivWap col-md-4">
+                        <div class="tit">
+                            <a href="#">
+                                <span class="titspan1">研究生教育</span>
+                                <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Postgraduate Education</em><img src="images/titline.jpg" alt=""></span>
+                            </a>
+                            <a href="$cms.getUrl('研究生教育')" class="more">More</a>
+                        </div>
+                        <ul class="newslist">
+                            <!-- 循环研究生教育下级栏目,然后查询对应栏目信息 -->
+                            #set ($ids= "")
+                            #foreach($sub in $cms.getChildren("中外合作硕士教育项目"))
+                               #if($ids=="")
+                                      #set ($ids= "parentID=$sub.ID")
+                               #else
+                                     #set ($ids= "$ids or  parentID=$sub.ID")
+                               #end
+                            #end
+                           <!-- 循环国家计划内统招研究生下级栏目,然后查询对应栏目信息 -->
+                            #foreach($sub in $cms.getChildren("国家计划内统招研究生"))
+                                #if($ids=="")
+                                    #set ($ids= "parentID=$sub.ID")
+                                #else
+                                    #set ($ids= "$ids or  parentID=$sub.ID")
+                                #end
+                            #end
+
+                          #foreach($article in $cmsService.getPageDatas("From Article where siteID=$curChannel.site.ID and $ids and status=7 order by publishDate DESC",1,5))
+                          <li><a href="$cms.getUrl($article)">#summary($article.name 37)</a><span>$cms.format($article.publishDate,"yyyy-MM-dd")</span></li>
+                          #end
+
+                        </ul>
+                    </div>
+                    <div class="threedivWap col-md-4">
+                        <div class="tit">
+                            <a href="#">
+                                <span class="titspan1">招聘就业</span>
+                                <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Academic Conference</em><img src="images/titline.jpg" alt=""></span>
+                            </a>
+                            <a href="$cms.getUrl('就业信息')" class="more">More</a>
+                        </div>
+                        <ul class="newslist">
+                            #foreach($article in $cms.getContents("就业信息",5))
+                            <li><a href="$cms.getUrl($article)">#summary($article.name 37)</a><span>$cms.format($article.publishDate,"yyyy-MM-dd")</span></li>
+                            #end
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="dwjl">
+                <div class="dwjlN">
+                    <div class="dwjlL col-md-6 col-sm-12 col-xs-12">
+                        <div class="scope">
+                            <div class="">
+
+                                <div class="tit">
+                                    <a href="$cms.getUrl('国际交流信息')">
+                                        <span class="titspan1">对外交流</span>
+                                        <span class="titspan2"><img src="images/titline.jpg" alt=""><em>External communication</em><img src="images/titline.jpg" alt=""></span>
+                                    </a>
+                                    <a href="$cms.getUrl('国际交流信息')" class="more">More</a>
+                                </div>
+                                <ul class="clearfix">
+                                    <!-- 国际交流信息循环部分---对外交流 -->
+                                    #set ($gjjlxxCurrentId= "")
+                                    #foreach($sub in $cms.getChildren("国际交流"))
+                                       #if ($sub.name=="国际交流信息")
+                                       #set($gjjlxxCurrentId=$sub.ID)
+                                       #end
+                                    #end
+
+                                    #set($gjjlxxPiccount=0)
+                                    #foreach($article in $cmsService.getPageDatas("From Article where siteID=$curChannel.site.ID and parentID=$gjjlxxCurrentId and status=7 order by sortID desc",1,200))
+                                    #set($imgurl=$cms.getPictureUrl($article))
+                                    #if ($cms.hasPicture($article) && $gjjlxxPiccount<=2 && $imgurl!="")
+                                    <li>
+                                        <div class="pic" style="height: 96px;overflow: hidden;">
+                                            <a href="$cms.getUrl($article)">
+                                              <img class="vcenter"  src="$imgurl">        
+                                            </a>
+                                        </div>
+                                        <a href="$cms.getUrl($article)" class="scopea">#summary($article.name 37)</a>
+                                        <p>#summary($article.content 250)</p>
+                                    </li>
+                                    #set($gjjlxxPiccount=$gjjlxxPiccount+1)
+                                    #end
+
+                                    #end
+                                    <!-- 国际交流信息循环部分---对外交流 -->
+                                    <!-- <li>
+                                        <div class="pic">
+                                            <a href="pro_show.html">
+                                                <img class="vcenter" src="images/scope3.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <a href="pro_show.html" class="scopea">对外交流</a>
+                                        <p>11月19日下午，学院全体教职工在阶梯教室开展第二阶段学习“学分制改革相关文件”领学活动。王荣党院长为第一讲作动员，并领学《教育部关于深化本科教育教学改革全面提高人才培养质量的意见》、《云南财经大学本科学分制综合改革总体方案》以及《云南财经大学名誉教授和客座教授管理办法</p>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dwjlR col-md-6 col-sm-12 col-xs-12">
+                        <div class="tit">
+                            <a href="$cms.getUrl('快速链接')">
+                                <span class="titspan1">常用链接</span>
+                                <span class="titspan2"><img src="images/titline.jpg" alt=""><em>External communication</em><img src="images/titline.jpg" alt=""></span>
+                            </a>
+                             <a href="$cms.getUrl('快速链接')" class="more">More</a>
+                        </div>
+                        <div class="cyljlist">
+                            <ul>
+                                <!-- 快速连接循环 -->
+                                #foreach($article in $cms.getContents("快速链接",3))
+                                #set ($linkurl = $cms.getUrl($article).replace("http://www.ynufe.edu.cn","") )
+                                <li class="col-md-6 col-sm-6 col-xs-12"><a href="$linkurl"><i class="iconfont">&#xe612;</i><span>$article.name</span></a></li>
+                                #end
+                                 <!-- 快速连接循环 -->
+                                <!-- <li class="col-md-6 col-sm-6 col-xs-12"><a href="#"><i class="iconfont">&#xe612;</i><span>学分制教学管理系统</span></a></li> -->
+                                <li class="col-md-6 col-sm-6 col-xs-12"><a href="$cms.getUrl('常用下载')"><i class="iconfont">&#xe69c;</i><span>常用下载</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tzggztwz">
+                <div class="col-md-7 col-sm-12 col-xs-12">
+                    <div class="tit">
+                        <a href="#">
+                            <span class="titspan1">学术讲座</span>
+                            <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Employment recruitment</em><img src="images/titline.jpg" alt=""></span>
+                        </a>
+                        <a href="$cms.getUrl('学术讲座')" class="more">More</a>
+                    </div>
+                    <div class="jyzpdiv">
+                        <div class="layui-carousel" id="test2">
+                            <div carousel-item>
+                                <!-- 学术讲座循环部分 科研学术需要转变为科学研究-->
+                                #set ($xsjzCurrentId= "")
+                                #foreach($sub in $cms.getChildren("科研学术"))
+                                   #if ($sub.name=="学术讲座")
+                                   #set($xsjzCurrentId=$sub.ID)
+                                   #end
+                                #end
+
+                                #set($xsjzFlagCount=1)
+                                #foreach($article in $cmsService.getPageDatas("From Article where siteID=$curChannel.site.ID and parentID=$xsjzCurrentId and status=7 order by sortID desc",1,6))
+                                     #if($xsjzFlagCount%2>0)
+                                     <div>
+                                        <div class="jyzpdivWap col-md-6 col-sm-6 col-xs-12">
+                                            <div class="jyzpdivL col-md-3 col-sm-3 col-xs-3">
+                                                <span><i>$cms.format($article.publishDate,"dd")</i><em class="zmonthDate">$cms.format($article.publishDate,"MM")</em></span>
+                                            </div>
+                                            <div class="jyzpdivR col-md-9 col-sm-9 col-xs-9">
+                                                <a href="$cms.getUrl($article)">#summary($article.summary 250)</a>
+                                            </div>
+                                        </div>
+                                     #end
+                                     #if($xsjzFlagCount%2==0)
+                                     <div class="jyzpdivWap col-md-6 col-sm-6 col-xs-12">
+                                        <div class="jyzpdivL col-md-3 col-sm-3 col-xs-3">
+                                            <span><i>$cms.format($article.publishDate,"dd")</i><em class="zmonthDate">$cms.format($article.publishDate,"MM")</em></span>
+                                        </div>
+                                        <div class="jyzpdivR col-md-9 col-sm-9 col-xs-9">
+                                            <a href="$cms.getUrl($article)">#summary($article.summary 250)</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                     #end
+                                     #set($xsjzFlagCount=$xsjzFlagCount+1)
+                                #end
+
+                                <!-- 学术讲座循环部分 -->
+                                <!-- <div>
+                                    <div class="jyzpdivWap col-md-6 col-sm-6 col-xs-12">
+                                        <div class="jyzpdivL col-md-3 col-sm-3 col-xs-3">
+                                            <span><i>10</i><em>Nov</em></span>
+                                        </div>
+                                        <div class="jyzpdivR col-md-9 col-sm-9 col-xs-9">
+                                            <a href="#">随着“不忘初心，牢记使命”主题教育活动的深入，学院党委积极开展“担当使命，云财党员在行动”活动，11月23日下午，学院党委书记林浩带领师生深入玉溪永新运输有限公司进行参观交流，拓展学生实践、就业渠道。公司董事长刘永喜、总经理周静玉、办公室主任徐文娟接待了学院师生一行。</a>
+                                        </div>
+                                    </div>
+                                    <div class="jyzpdivWap col-md-6 col-sm-6 col-xs-12">
+                                        <div class="jyzpdivL col-md-3 col-sm-3 col-xs-3">
+                                            <span><i>10</i><em>Nov</em></span>
+                                        </div>
+                                        <div class="jyzpdivR col-md-9 col-sm-9 col-xs-9">
+                                            <a href="#">随着“不忘初心，牢记使命”主题教育活动的深入，学院党委积极开展“担当使命，云财党员在行动”活动，11月23日下午，学院党委书记林浩带领师生深入玉溪永新运输有限公司进行参观交流，拓展学生实践、就业渠道。公司董事长刘永喜、总经理周静玉、办公室主任徐文娟接待了学院师生一行。</a>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="tit">
+                        <a href="#">
+                            <span class="titspan1">专题栏目</span>
+                            <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Thematic column</em><img src="images/titline.jpg" alt=""></span>
+                        </a>
+                        <a href="$cms.getUrl('专题栏目')" class="more">More</a>
+                    </div>
+                    <ul class="ztlm">
+                        <!-- 专题栏目循环 -->
+                        #set($ztlmPiccount=0)
+                        #foreach($article in $cms.getContents("专题栏目",10))
+                            #set($imgurl=$cms.getPictureUrl($article))
+                            #if ($cms.hasPicture($article) && $ztlmPiccount<=4 && $imgurl!="")
+                            #set ($linkurl = $cms.getUrl($article).replace("http://www.ynufe.edu.cn","") )
+                            <li class="col-md-6 col-sm-6"><a href="$linkurl"><img src="$imgurl"></a></li>
+                            #set($ztlmPiccount=$ztlmPiccount+1)
+                            #end
+                        #end
+                        <!-- 专题栏目循环 -->
+                        <!-- <li class="col-md-6 col-sm-6"><a href="#"><img src="images/ztlm1.jpg"></a></li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div style="clear: both;"></div>
+
+            <div class="weiboweixinWap">
+                <div class="weiboweixin">
+                  <div class="weiboweixinL col-md-2 col-sm-12">
+                    <div class="weiboweixinTL col-md-5 col-sm-3 col-xs-2"><i class="iconfont">&#xe62d;</i><span></span></div>
+                    <div class="weiboweixinTR col-md-5 col-sm-2 col-xs-3"><i class="iconfont"><img src="images/qr.png"></i><span></span></div>
+                    <div class="weiboweixinBL col-md-5 col-sm-3 col-xs-2"><i class="iconfont">&#xe625;</i><span></span></div>
+                    <div class="weiboweixinBR col-md-5 col-sm-2 col-xs-3"><i class="iconfont"><img src="images/qr.png"></i><span></span></div>
+                  </div>
+                  <div class="weiboweixinC col-md-5 col-sm-12 col-xs-12">
+                    <div class="weiboweixinBt"><i class="iconfont">&#xe62d;</i><span><a href="#">@云南省财经大学国际工商学院</a></span></div>
+                    #foreach($article in $cms.getContents("微博新闻",1))
+                    <p>#summary($article.summary 500)</p>
+                    #end
+                  </div>
+                  <div class="weiboweixinR col-md-5 col-sm-12 col-xs-12">
+                    <div class="weiboweixinBt"><i class="iconfont">&#xe625;</i><span><a href="#">@云南省财经大学国际工商学院</a></span></div>
+                    #foreach($article in $cms.getContents("微信新闻",1))
+                    <p>#summary($article.summary 500)</p>
+                    #end
+                   
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="footer">
+            <div class="footerN">
+                <div class="">
+                    <div id="binfo" class="col-md-6 col-sm-12 col-xs-12">
+                        <p>
+                            <a href="http://cms.ynufe.edu.cn/cms/" target="_blank">版权所有：</a>
+                            云南财经大学国际工商学院　
+                        </p>
+                        <p>地址：昆明市龙泉路237号　邮编：650221</p>
+                        <p>
+                            Copyright
+                            <a href="http://www.ynufe.edu.cn/cms/">©</a>
+                            2017  International Business School of YUFE All Rights Reserved.
+                        </p>
+
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <h5>联系我们</h5>
+                        <p>
+                            <a href="mailto://">院长信箱</a>
+                            <a href="mailto://">书记信箱</a>
+                        </p>
+                        <p>联系：电话：0871-65131181</p>
+                    </div>
+                    <div id="qr" class="col-md-2 col-sm-12 col-xs-12">
+                        <span class="col-md-6 col-sm-3 col-xs-4">
+                            手机版<br>
+                            <img src="images/qr.png">
+                        </span>
+                        <span class="col-md-6 col-sm-3 col-xs-4" style="float: right;">
+                            国工公众号<br>
+                            <img src="images/qr.jpg">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="js/jquery-1.11.1.js"></script>
+        <script src="/pub/ibs/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/pub/ibs/layui/layui.all.js"></script>
+        <script src="js/web.js"></script>
+        <script>
+            layui.use('carousel', function () {
+                var carousel = layui.carousel;
+                //建造实例
+                carousel.render({
+                    elem: '#test1'
+                    , width: '100%' //设置容器宽度
+                    , height: '100%'
+                    , arrow: 'always' //始终显示箭头
+                    //,anim: 'updown' //切换动画方式
+                });
+
+                //建造实例
+                carousel.render({
+                    elem: '#test2'
+                    , width: '100%' //设置容器宽度
+                    , height: '100%'
+                    , indicator: 'outside'
+                    , arrow: 'hover' //始终显示箭头
+                    //,anim: 'updown' //切换动画方式
+                });
+
+            });
+        </script>
+        <script>
+            $(function () {
+                // 中文月份英文格式化处理
+                var month=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+                $(".zmonthDate").each(function(key,value){
+                   var m =Number($(this).html());
+                   var monthEn = month[m-1];
+                   $(this).html(monthEn);
+                });
+
+
+
+                setInterval(hzxmlistFun, 3000);
+                function hzxmlistFun() {
+                    $('.hzxmlist>ul').animate({
+                        "left": "-336px"
+                    }, function () {
+                        $('.hzxmlist>ul>li:first').appendTo($('.hzxmlist>ul'));
+                        $('.hzxmlist>ul').css("left", "0px");
+                    })
+                }
+            })
+        </script>
+
+</body></html>

@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    #include("headerdcs.vm")
+    <!--<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>云南省财经大学国际工商学院</title>
+    <link rel="stylesheet" href="/pub/ibs/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/pub/ibs/layui/css/layui.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <!--[if lt IE 9]>
+    <script src="http://scottjehl.github.io/Respond/dest/respond.src.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    #parse("head2.vm")
+    <div class="subBanner">
+        <div class="subBannerImg" style="background-image: url(/pub/ibs/images/subBanner1.jpg); height: 210px;">
+            <div class="sub_titleBig_title">
+                <h2><span>$curChannel.title</span><i></i></h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="main T">
+            #set ($lsnavon= "")
+            #set ($onChannel="")
+            #if ($cms.getChannelCount($curChannel.ID)>0)
+            #set ($onChannel = $curChannel)
+            #else
+            #if($curChannel.parent.ID==$rootChannel.ID)
+            #set ($onChannel = $curChannel)
+            #else
+            #set($onChannel = $curChannel.parent)
+            #end
+            #end
+         #if ($cms.getChannelCount($onChannel.ID)>0)
+        <div class="subYmL col-md-2 col-sm-2 col-xs-12">
+        #else
+        <div style="display:none" class="subYmL col-md-2 col-sm-2 col-xs-12">
+        #end
+  
+            <ul>
+                #foreach($channel in $cms.getChildren($onChannel))
+                #if($channel.ID== $curChannel.ID)
+                #set($lsnavon="color:#ff8d23")
+                #else
+                #set($lsnavon="color:#ffff")
+                #end
+
+                <li style="height: 55px;">
+                    <span><a style="$lsnavon" href="$cms.getUrl($channel)">$channel.title</a></span><em></em>
+                </li>
+                #end
+            </ul>
+            <!--<ul>
+        <li><span>学院简介</span><em>College Profile</em></li>
+        <li><span>学院机构</span><em>College institutions</em></li>
+        <li><span>历史沿革</span><em>History</em></li>
+    </ul>-->
+        </div>
+         #if ($cms.getChannelCount($onChannel.ID)>0)
+        <div class="subYmR col-md-10 col-sm-10 col-xs-12">
+        #else
+        <div class="subYmR col-md-12 col-sm-12 col-xs-12">
+        #end
+            <ol class="breadcrumb">
+                #foreach($channel in $cms.getPathChannels($curChannel))
+                <a href="$cms.getUrl($channel)">$channel.title</a>&raquo;
+                #end
+            </ol>
+            <div class="list">
+                         <!-- 循环部分 -->
+    #if ($cms.getChannelCount($curChannel.ID)>0)
+      #set ($i=0)
+      #foreach($channel in $cms.getChildren($curChannel))
+      <!-- 取得标题 -->
+      <div class="tit">
+        <a href="$cms.getUrl($channel.title)">
+          <span class="titspan1">$channel.title</span>
+          <span class="titspan2"><img src="images/titline.jpg" alt=""><em></em><img
+              src="images/titline.jpg" alt=""></span>
+        </a>
+        <a href="$cms.getUrl($channel.title)" class="more">More</a>
+      </div>
+      <ul class="subResourceList">
+      <!-- 取得新闻列表 -->
+        #set ($ids= "")
+    #if ($cms.getChannelCount($channel.ID)>0)
+        #foreach($sub in $cms.getChildren($channel))
+            #set ($ids= "$ids parentID=$sub.ID or")
+            #foreach($sub2 in $cms.getChildren($sub))
+              #set ($ids= "$ids parentID=$sub2.ID or")
+            #end
+          #end
+          #set ($ids= "$ids parentID=0")
+        #else
+          #set ($ids= "parentID=$channel.ID")
+        #end
+        #foreach($content in $cmsService.getPageDatas("From Content where siteID=$curChannel.site.ID and ($ids) and status=7 order by publishDate DESC",1,6))
+        <li><a href="$cms.getUrl($content)"><span>$cms.format($content.publishDate,"yyyy-MM-dd")</span><i> #summary($content.name 25)</i></a></li>
+        #end
+      </ul>
+      #end
+    #else
+        <ul class="subResourceList">
+        <!-- 循环列表分页信息 -->
+        #foreach($article in $cms.getPageContents($curChannel,$curPage))
+         <li><a href="$cms.getUrl($article)"><span>$cms.format($article.publishDate,"yyyy-MM-dd")</span><i>#summary($article.name 150)</i></a></li>
+        #end 
+        </ul>
+
+           <!-- 分页部分 -->
+                <div class="listPage">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                    #set($prePage=$curPage-1)
+                                #set($leftm=$prePage/10)
+                                #set($left=$leftm*10+1)
+                                #set($right=$leftm*10+10)
+                                #if($right>$totalPage)
+                                #set($right=$totalPage)
+                                #end
+                                #set($nextPage=$curPage+1)
+                                #set($newPage1 = $left + 10)
+                                #set($newPage2 = $left - 1)
+                    
+                        #if($curPage>1)
+                            <li><a href="$cms.getIndexFileName($curChannel,$prePage)">&laquo;</a></li>
+                        #else
+                            <li style="display:none"  class="disabled"><span>&laquo;</span></li>
+                        #end
+                    
+                                #foreach($index in [$left..$right])
+                            #if ($index == $curPage)
+                            <li class="active"><a style="color:red" href="$cms.getIndexFileName($curChannel, $index)">$index</a></li>
+                                    #else
+                            <li><a href="$cms.getIndexFileName($curChannel, $index)">$index</a></li>
+                                    #end
+                                #end
+                    
+                        #if($nextPage<$totalPage)
+                            <li><a href="$cms.getIndexFileName($curChannel, $nextPage)">&raquo;</a></li>
+                        #else
+                            <li style="display:none"  class="disabled"><span>&raquo;</span></li>
+                        #end
+                </ul>
+                    </nav>
+                </div>
+
+    #end
+    <!-- 循环部分结束 -->
+
+          
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+
+    <!-- 演示时使用的样式，实际应用中删除，以免影响编辑器编辑之后的样式 -->
+    <style type="text/css">
+        .contentN {
+            text-align: center;
+        }
+
+            .contentN p {
+                line-height: 30px;
+                font-size: 14px;
+                color: #555;
+                text-align: justify;
+                text-indent: 2em;
+                margin: 15px auto;
+                text-align: left;
+                width: 90%;
+                position: relative;
+            }
+
+            .contentN img {
+                max-width: 90%;
+            }
+    </style>
+    <!-- 演示时使用的样式，实际应用中删除，以免影响编辑器编辑之后的样式 -->
+    #parse("footer2.vm")
+
+</body></html>

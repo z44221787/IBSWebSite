@@ -1,0 +1,8 @@
+index2new首页
+content2内容页
+footer2页脚
+head2页头
+list2列表
+teachers2教职工信息（部门）
+teachers3教职工信息（拼音）
+teacherscenter2教师中心页

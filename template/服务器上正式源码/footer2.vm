@@ -1,0 +1,41 @@
+<div class="footer">
+  <div class="footerN">
+    <div class="">
+      <div id="binfo" class="col-md-6 col-sm-12 col-xs-12">
+        <p>
+          <a href="http://cms.ynufe.edu.cn/cms/" target="_blank">版权所有：</a>
+          云南财经大学国际工商学院　
+        </p>
+        <p>地址：昆明市龙泉路237号　邮编：650221</p>
+        <p>
+          Copyright
+          <a href="http://www.ynufe.edu.cn/cms/">©</a>
+          2017  International Business School of YUFE All Rights Reserved.
+        </p>
+
+      </div>
+      <div style="" class="col-md-4 col-sm-12 col-xs-12">
+        <!--<h5>联系我们</h5>
+        <p>
+          <a href="mailto://">院长信箱</a>
+          <a href="mailto://">书记信箱</a>
+        </p>
+        <p>联系：电话：0871-65131181</p>-->
+      </div>
+      <div id="qr" class="col-md-2 col-sm-12 col-xs-12">
+        <span class="col-md-6 col-sm-3 col-xs-4">手机版<br>
+            <img src="images/qr.png"></span>
+        <span class="col-md-6 col-sm-3 col-xs-4" style="float: right;">国工公众号<br>
+            <img src="images/qr.jpg"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="/pub/ibs/bootstrap/js/bootstrap.min.js"></script>
+<script src="/pub/ibs/layui/layui.all.js"></script>
+<script src="js/web.js"></script>
+<script>
+  var str = "星期" + "日一二三四五六".charAt(new Date().getDay())
+  $('.dateBar').html(new Date().getFullYear()+'年'+(new Date().getMonth()+1)+'月'+new Date().getDate()+'日'+'&nbsp;'+str)
+</script>

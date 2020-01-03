@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    #include("headerdcs.vm")
+    <!--<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>云南省财经大学国际工商学院</title>
+    <link rel="stylesheet" href="/pub/ibs/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/pub/ibs/layui/css/layui.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <!--[if lt IE 9]>
+    <script src="http://scottjehl.github.io/Respond/dest/respond.src.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    #parse("head2.vm")
+    <div class="subBanner">
+        <div class="subBannerImg" style="background-image: url(/pub/ibs/images/subBanner1.jpg); height: 210px;">
+            <div class="sub_titleBig_title">
+                <h2><span>$curChannel.title</span><i></i></h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="main T">
+        <div class="subYmL col-md-2 col-sm-2 col-xs-12">
+            #set ($lsnavon= "")
+            #set ($onChannel="")
+            #if ($cms.getChannelCount($curChannel.ID)>0)
+            #set ($onChannel = $curChannel)
+            #else
+            #if($curChannel.parent.ID==$rootChannel.ID)
+            #set ($onChannel = $curChannel)
+            #else
+            #set($onChannel = $curChannel.parent)
+            #end
+            #end
+            <ul>
+                #foreach($channel in $cms.getChildren($onChannel))
+                #if($channel.ID== $curChannel.ID)
+                #set($lsnavon="color:#ff8d23")
+                #else
+                #set($lsnavon="color:#ffff")
+                #end
+
+                <li style="height: 55px;">
+                    <span><a style="$lsnavon" href="$cms.getUrl($channel)">$channel.title</a></span><em></em>
+                </li>
+                #end
+            </ul>
+        </div>
+        <div class="subYmR col-md-10 col-md-10 col-xs-12">
+            <ol class="breadcrumb">
+                #foreach($channel in $cms.getPathChannels($curChannel))
+                <a href="$cms.getUrl($channel)">$channel.title</a>&raquo;
+                #end
+            </ol>
+
+
+            <div class="Teachers">
+                <div class="subCollegeList">
+
+                    <ul class="layui-timeline">
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;学院领导&nbsp;&nbsp;</h3>
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("学院领导_20181128164924831906",10))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 200)</a></li>
+
+                                    #end
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;经济学教学部&nbsp;&nbsp;</h3>
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("经济学教学部",10))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 200)</a></li>
+                                    #end
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;管理科学教学部&nbsp;&nbsp;</h3>
+
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("管理科学教学部",10))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 200)</a></li>
+                                    #end
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;外语教学部&nbsp;&nbsp;</h3>
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("外语教学部",200))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 10)</a></li>
+                                    #end
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;客座教授&nbsp;&nbsp;</h3>
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("客座教授",200))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 10)</a></li>
+                                    #end
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;外教&nbsp;&nbsp;</h3>
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("外教_20181128164924831906",200))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 10)</a></li>
+                                    #end
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">&nbsp;&nbsp;管理部门&nbsp;&nbsp;</h3>
+
+                                <ul class="subNameList">
+                                    #foreach($article in $cms.getContents("管理部门_20181128164924831906",200))
+                                    <li><a href="$cms.getUrl($article)">#summary($article.name 10)</a></li>
+                                    #end
+
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+
+    <!-- 演示时使用的样式，实际应用中删除，以免影响编辑器编辑之后的样式 -->
+    <style type="text/css">
+        .contentN {
+            text-align: center;
+        }
+
+            .contentN p {
+                line-height: 30px;
+                font-size: 14px;
+                color: #555;
+                text-align: justify;
+                text-indent: 2em;
+                margin: 15px auto;
+                text-align: left;
+                width: 90%;
+                position: relative;
+            }
+
+            .contentN img {
+                max-width: 90%;
+            }
+    </style>
+    <!-- 演示时使用的样式，实际应用中删除，以免影响编辑器编辑之后的样式 -->
+    #parse("footer2.vm")
+
+</body>
+</html>

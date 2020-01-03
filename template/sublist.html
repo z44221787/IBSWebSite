@@ -1,0 +1,134 @@
+<!-- 右侧菜单导航部分 -->
+#set ($lsnavon= "")
+#if($curChannel.parent.parent.ID==$rootChannel.ID)
+    #set ($onChannel = $curChannel.parent)
+#else
+    #set($onChannel = $curChannel.parent.parent)
+#end
+<h3 id="submenu">$onChannel.title</h3>
+<ul class="nav nav-stacked">
+#foreach($channel in $cms.getChildren($onChannel))
+    #if($channel.ID== $curChannel.ID)
+    #set($lsnavon="class='current'")
+#else
+    #set($lsnavon="")
+#end
+
+
+<li $lsnavon><a href="$cms.getUrl($channel)">$channel.title</a>
+    #if($cms.getChannelCount($channel.ID) > 0)
+      <ul>
+        #foreach($channel2 in $cms.getChildren($channel))
+    #if($channel2.ID== $curChannel.ID)
+      #set($lsnavon="class='current'")
+    #else
+      #set($lsnavon="")
+    #end
+    <li $lsnavon><a href="$cms.getUrl($channel2)">$channel2.title</a></li>
+        #end
+        </ul>
+    #end
+    </li>
+#end
+</ul>
+
+
+
+<!-- sublist  测试页面 -->
+#if ($cms.getChannelCount($curChannel.ID)>0)
+	#category()
+#else
+	#if($totalRows==1)
+            <div class="content">#one()</div>
+	#else
+            <div id="mylist">#listpage(60)</div>
+            <div id="showPage">#page()</div>
+	#end
+#end
+
+<!-- category  查询栏目，并划分层级-->
+#set ($i=0)
+#foreach($channel in $cms.getChildren($curChannel))
+
+<div class="headline">
+            <h2>$channel.title</h2>
+            <a href="$cms.getUrl($channel.title)" class="more">更多</a>
+          </div>
+
+    <div id="mylist">
+    <ul>
+  #set ($ids= "")
+  #if ($cms.getChannelCount($channel.ID)>0)
+    #foreach($sub in $cms.getChildren($channel))
+      #set ($ids= "$ids parentID=$sub.ID or")
+      #foreach($sub2 in $cms.getChildren($sub))
+        #set ($ids= "$ids parentID=$sub2.ID or")
+      #end
+    #end
+    #set ($ids= "$ids parentID=0")
+  #else
+    #set ($ids= "parentID=$channel.ID")
+  #end
+  #foreach($content in $cmsService.getPageDatas("From Content where siteID=$curChannel.site.ID and ($ids) and status=7 order by publishDate DESC",1,6))
+    <li><a href="$cms.getUrl($content)">#summary($content.name 25)</a><span class="time">$cms.format($content.publishDate,"MM月dd日")</span></li>
+  #end
+  </ul>
+  </div>
+#end
+
+
+<!-- one   查询一条信息--> 
+#foreach($article in $cms.getContents($curChannel,1))
+  #set ($fullArticle=$cmsService.getArticle($article.ID))
+  $fullArticle.content
+#end
+
+<!-- listpage($length) 查询列表 -->
+<ul>
+    #foreach($article in $cms.getPageContents($curChannel,$curPage))
+      <li>
+      #if($cms.getChannelCount($curChannel.ID) > 0)
+        #set($chl=$cmsService.getChannel($article.parentID))
+        [<a href="$cms.getUrl($chl)">$chl.title</A>]
+      #end
+        <a class="spage" title="$article.name" href="$cms.getUrl($article)">#summary($article.name $length)</a>
+        <span class="time">$cms.format($article.publishDate,"yyyy-MM-dd")</span>
+      </li>
+    #end  
+</ul>
+
+
+<!-- page  分页-->
+
+<ul class="pagination">
+    #set($prePage=$curPage-1)
+                #set($leftm=$prePage/10)
+                #set($left=$leftm*10+1)
+                #set($right=$leftm*10+10)
+                #if($right>$totalPage)
+                #set($right=$totalPage)
+                #end
+                #set($nextPage=$curPage+1)
+                #set($newPage1 = $left + 10)
+                #set($newPage2 = $left - 1)
+    
+          #if($curPage>1)
+            <li><a href="$cms.getIndexFileName($curChannel,$prePage)">&laquo;</a></li>
+          #else
+            <li class="disabled"><span>&laquo;</span></li>
+          #end
+    
+                #foreach($index in [$left..$right])
+            #if ($index == $curPage)
+              <li class="active"><a href="$cms.getIndexFileName($curChannel, $index)">$index</a></li>
+                    #else
+              <li><a href="$cms.getIndexFileName($curChannel, $index)">$index</a></li>
+                    #end
+                #end
+    
+          #if($nextPage<$totalPage)
+            <li><a href="$cms.getIndexFileName($curChannel, $nextPage)">&raquo;</a></li>
+          #else
+            <li class="disabled"><span>&raquo;</span></li>
+          #end
+    </ul>

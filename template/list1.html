@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>云南省财经大学国际工商学院</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="layui/css/layui.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="top">
+    <div class="topN">
+      <div class="topL col-md-6 col-sm-6 col-xs-6"><span>2019年11月11日</span></div>
+      <div class="topR col-md-6 col-sm-6 col-xs-6">
+        <ul>
+          <li><a href="#">旧站</a></li>
+          <li><a href="#">注册/登录</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="head">
+    <div class="headN">
+      <div class="logocx">
+        <div class="logocxL col-md-8">
+          <img src="images/logo.png" />
+        </div>
+        <div class="logocxR col-md-4">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="请输入关键词"" aria-describedby=" basic-addon2">
+            <span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-search"></i>搜索</span>
+          </div>
+        </div>
+      </div>
+      <div class="nav">
+        <ul>
+          <li class="col-md-1"><a href="#"><span>首页</span><em>Home</em></a></li>
+          <li class="col-md-1"><a href="#"><span>学院概况</span><em>Overview</em></a></li>
+          <li class="col-md-1"><a href="#"><span>新闻中心</span><em>News</em></a></li>
+          <li class="col-md-1"><a href="#"><span>教职工</span><em>Faculty</em></a></li>
+          <li class="col-md-1"><a href="#"><span>本科生</span><em>Undergraduate</em></a></li>
+          <li class="col-md-1"><a href="#"><span>研究生</span><em>Postgraduate</em></a></li>
+          <li class="col-md-1"><a href="#"><span>国际交流</span><em>Communication</em></a></li>
+          <li class="col-md-1"><a href="#"><span>科学研究</span><em>the study</em></a></li>
+          <li class="col-md-1"><a href="#"><span>党建工作</span><em>Party building</em></a></li>
+          <li class="col-md-1"><a href="#"><span>团学工作</span><em>Group work</em></a></li>
+          <li class="col-md-1"><a href="#"><span>学生工作</span><em>student work</em></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="subBanner">
+    <div class="subBannerImg" style="background-image: url(images/subBanner1.jpg); height: 210px;">
+      <div class="sub_titleBig_title">
+        <h2><span>学院简介</span><i>College Profile</i></h2>
+      </div>
+    </div>
+
+  </div>
+  <div class="main T">
+    <div class="subYmL col-md-2 col-sm-2 col-xs-12">
+      <ul>
+        <li><span>学院简介</span><em>College Profile</em></li>
+        <li><span>学院机构</span><em>College institutions</em></li>
+        <li><span>历史沿革</span><em>History</em></li>
+      </ul>
+    </div>
+    <div class="subYmR col-md-10 col-sm-10 col-xs-12">
+      <ol class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">列表</a></li>
+        <li class="active">内容</li>
+      </ol>
+      <div class="list">
+        <!-- 循环部分 -->
+        #if ($cms.getChannelCount($curChannel.ID)>0)
+          #set ($i=0)
+          #foreach($channel in $cms.getChildren($curChannel))
+          <!-- 取得标题 -->
+          <div class="tit">
+            <a href="$cms.getUrl($channel.title)">
+              <span class="titspan1">$channel.title</span>
+              <span class="titspan2"><img src="images/titline.jpg" alt=""><em></em><img
+                  src="images/titline.jpg" alt=""></span>
+            </a>
+            <a href="$cms.getUrl($channel.title)" class="more">More</a>
+          </div>
+          <ul class="subResourceList">
+          <!-- 取得新闻列表 -->
+            #set ($ids= "")
+            #if ($cms.getChannelCount($channel.ID)>0)
+              #foreach($sub in $cms.getChildren($channel))
+                #set ($ids= "$ids parentID=$sub.ID or")
+                #foreach($sub2 in $cms.getChildren($sub))
+                  #set ($ids= "$ids parentID=$sub2.ID or")
+                #end
+              #end
+              #set ($ids= "$ids parentID=0")
+            #else
+              #set ($ids= "parentID=$channel.ID")
+            #end
+            #foreach($content in $cmsService.getPageDatas("From Content where siteID=$curChannel.site.ID and ($ids) and status=7 order by publishDate DESC",1,6))
+            <li><a href="$cms.getUrl($content)"><span>$cms.format($content.publishDate,"yyyy-MM-dd")</span><i> #summary($content.name 25)</i></a></li>
+            #end
+          </ul>
+          #end
+        #eles
+           取列表并分页
+        #end
+        <!-- 循环部分 -->
+
+        <!-- <div class="tit">
+          <a href="#">
+            <span class="titspan1">通知公告</span>
+            <span class="titspan2"><img src="images/titline.jpg" alt=""><em>Notice announcement</em><img
+                src="images/titline.jpg" alt=""></span>
+          </a>
+          <a href="#" class="more">More</a>
+        </div> -->
+
+        <!-- <ul class="subResourceList">
+          <li><a href="211698.htm"><span>2019-04-22 </span><i> 王梓坤院士-俄罗斯记忆
+              </i></a></li>
+          <li><a href="209596.htm"><span>2018-09-05 </span><i> 章建跃 核心素养统领下的高中教材变革
+              </i></a></li>
+          <li><a href="211714.htm"><span>2016-05-24 </span><i> IEA专家教育测量讲座
+              </i></a></li>
+
+
+        </ul> -->
+
+      </div>
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+
+
+
+  <div class="footer">
+    <div class="footerN">
+      <div class="">
+        <div id="binfo" class="col-md-6 col-sm-12 col-xs-12">
+          <p>
+            <a href="http://cms.ynufe.edu.cn/cms/" target="_blank">版权所有：</a>
+            云南财经大学国际工商学院　
+          </p>
+          <p>地址：昆明市龙泉路237号　邮编：650221</p>
+          <p>
+            Copyright
+            <a href="http://www.ynufe.edu.cn/cms/">©</a>
+            2017 International Business School of YUFE All Rights Reserved.
+          </p>
+
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <h5>联系我们</h5>
+          <p>
+            <a href="mailto://">院长信箱</a>
+            <a href="mailto://">书记信箱</a>
+          </p>
+          <p>联系：电话：0871-65131181</p>
+        </div>
+        <div id="qr" class="col-md-2 col-sm-12 col-xs-12">
+          <span class="col-md-6 col-sm-3 col-xs-4">
+            手机版<br>
+            <img src="images/qr.png">
+          </span>
+          <span class="col-md-6 col-sm-3 col-xs-4" style="float: right;">
+            国工公众号<br>
+            <img src="images/qr.jpg">
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.11.1.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="layui/layui.all.js"></script>
+  <script src="js/web.js"></script>
+</body>
+
+</html>

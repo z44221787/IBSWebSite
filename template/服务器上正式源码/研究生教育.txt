@@ -1,0 +1,17 @@
+ <!-- 循环研究生教育下级栏目,然后查询对应栏目信息 -->
+                            #set ($ids= "")
+                            #foreach($sub in $cms.getChildren("中外合作硕士教育项目"))
+                               #if($ids=="")
+                                      #set ($ids= "parentID=$sub.ID")
+                               #else
+                                     #set ($ids= "$ids or  parentID=$sub.ID")
+                               #end
+                            #end
+                           <!-- 循环国家计划内统招研究生下级栏目,然后查询对应栏目信息 -->
+                            #foreach($sub in $cms.getChildren("国家计划内统招研究生"))
+                                #if($ids=="")
+                                    #set ($ids= "parentID=$sub.ID")
+                                #else
+                                    #set ($ids= "$ids or  parentID=$sub.ID")
+                                #end
+                            #end
